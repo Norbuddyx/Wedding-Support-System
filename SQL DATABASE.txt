@@ -14,21 +14,6 @@ MariaDB [wedding_dss]> desc users;
 +------------+--------------------------------------+------+-----+---------------------+-------------------------------+
 9 rows in set (0.010 sec)
 
-MariaDB [wedding_dss]> desc bookings;
-+-------------+-------------+------+-----+---------------------+----------------+
-| Field       | Type        | Null | Key | Default             | Extra          |
-+-------------+-------------+------+-----+---------------------+----------------+
-| booking_id  | int(11)     | NO   | PRI | NULL                | auto_increment |
-| user_id     | int(11)     | YES  | MUL | NULL                |                |
-| venue_id    | int(11)     | YES  | MUL | NULL                |                |
-| event_date  | date        | YES  |     | NULL                |                |
-| event_time  | varchar(50) | YES  |     | NULL                |                |
-| total_price | double      | YES  |     | NULL                |                |
-| status      | varchar(20) | YES  |     | PENDING             |                |
-| created_at  | timestamp   | NO   |     | current_timestamp() |                |
-+-------------+-------------+------+-----+---------------------+----------------+
-8 rows in set (0.009 sec)
-
 MariaDB [wedding_dss]> desc login_logs;
 +------------+----------+------+-----+---------+----------------+
 | Field      | Type     | Null | Key | Default | Extra          |
@@ -50,4 +35,38 @@ MariaDB [wedding_dss]> desc venues;
 | theme      | varchar(50)  | YES  |     | NULL      |                |
 | status     | varchar(20)  | YES  |     | AVAILABLE |                |
 +------------+--------------+------+-----+-----------+----------------+
+
 6 rows in set (0.012 sec)
+
+MariaDB [wedding_dss]> desc admins;
++------------+-----------------------------+------+-----+---------------------+-------------------------------+
+| Field      | Type                        | Null | Key | Default             | Extra                         |
++------------+-----------------------------+------+-----+---------------------+-------------------------------+
+| admin_id   | int(11)                     | NO   | PRI | NULL                | auto_increment                |
+| full_name  | varchar(100)                | YES  |     | NULL                |                               |
+| email      | varchar(100)                | YES  |     | NULL                |                               |
+| username   | varchar(50)                 | YES  | UNI | NULL                |                               |
+| password   | varchar(100)                | YES  |     | NULL                |                               |
+| role       | enum('SUPER_ADMIN','ADMIN') | YES  |     | ADMIN               |                               |
+| status     | varchar(20)                 | YES  |     | ACTIVE              |                               |
+| created_at | timestamp                   | NO   |     | current_timestamp() |                               |
+| updated_at | timestamp                   | NO   |     | current_timestamp() | on update current_timestamp() |
++------------+-----------------------------+------+-----+---------------------+-------------------------------+
+9 rows in set (0.015 sec)
+
+MariaDB [wedding_dss]> desc bookings;
++-------------+--------------+------+-----+---------------------+----------------+
+| Field       | Type         | Null | Key | Default             | Extra          |
++-------------+--------------+------+-----+---------------------+----------------+
+| booking_id  | int(11)      | NO   | PRI | NULL                | auto_increment |
+| user_id     | int(11)      | YES  | MUL | NULL                |                |
+| venue_id    | int(11)      | YES  | MUL | NULL                |                |
+| venue_type  | varchar(50)  | YES  |     | NULL                |                |
+| event_date  | date         | YES  |     | NULL                |                |
+| event_time  | varchar(50)  | YES  |     | NULL                |                |
+| location    | varchar(255) | YES  |     | NULL                |                |
+| total_price | double       | YES  |     | NULL                |                |
+| status      | varchar(20)  | YES  |     | PENDING             |                |
+| created_at  | timestamp    | NO   |     | current_timestamp() |                |
++-------------+--------------+------+-----+---------------------+----------------+
+10 rows in set (0.010 sec)
