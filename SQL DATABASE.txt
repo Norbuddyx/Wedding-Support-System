@@ -1,18 +1,35 @@
-MariaDB [wedding_dss]> desc users;
-+------------+----------------+------+-----+---------------------+-------------------------------+
-| Field      | Type           | Null | Key | Default             | Extra                         |
-+------------+----------------+------+-----+---------------------+-------------------------------+
-| user_id    | int(11)        | NO   | PRI | NULL                | auto_increment                |
-| full_name  | varchar(100)   | YES  |     | NULL                |                               |
-| email      | varchar(100)   | YES  |     | NULL                |                               |
-| username   | varchar(50)    | YES  | UNI | NULL                |                               |
-| password   | varchar(100)   | YES  |     | NULL                |                               |
-| role       | enum('CLIENT') | NO   |     | NULL                |                               |
-| status     | varchar(20)    | YES  |     | ACTIVE              |                               |
-| created_at | timestamp      | NO   |     | current_timestamp() |                               |
-| updated_at | timestamp      | NO   |     | current_timestamp() | on update current_timestamp() |
-+------------+----------------+------+-----+---------------------+-------------------------------+
-9 rows in set (0.012 sec)
+MariaDB [wedding_dss]> desc login_logs;
++-------------+----------+------+-----+---------+----------------+
+| Field       | Type     | Null | Key | Default | Extra          |
++-------------+----------+------+-----+---------+----------------+
+| log_id      | int(11)  | NO   | PRI | NULL    | auto_increment |
+| user_id     | int(11)  | YES  | MUL | NULL    |                |
+| admin_id    | int(11)  | YES  |     | NULL    |                |
+| login_time  | datetime | YES  |     | NULL    |                |
+| logout_time | datetime | YES  |     | NULL    |                |
++-------------+----------+------+-----+---------+----------------+
+5 rows in set (0.010 sec)
+
+MariaDB [wedding_dss]> desc bookings;
++---------------+--------------+------+-----+---------------------+----------------+
+| Field         | Type         | Null | Key | Default             | Extra          |
++---------------+--------------+------+-----+---------------------+----------------+
+| booking_id    | int(11)      | NO   | PRI | NULL                | auto_increment |
+| user_id       | int(11)      | YES  | MUL | NULL                |                |
+| full_name     | varchar(255) | YES  |     | NULL                |                |
+| venue_id      | int(11)      | YES  | MUL | NULL                |                |
+| venue_type    | varchar(50)  | YES  |     | NULL                |                |
+| capacity      | int(11)      | YES  |     | NULL                |                |
+| event_date    | date         | YES  |     | NULL                |                |
+| event_time    | varchar(50)  | YES  |     | NULL                |                |
+| location      | varchar(255) | YES  |     | NULL                |                |
+| total_price   | double       | YES  |     | NULL                |                |
+| status        | varchar(20)  | YES  |     | PENDING             |                |
+| cancel_reason | varchar(255) | YES  |     | NULL                |                |
+| created_at    | timestamp    | NO   |     | current_timestamp() |                |
+| admin_id      | int(11)      | YES  | MUL | NULL                |                |
++---------------+--------------+------+-----+---------------------+----------------+
+14 rows in set (0.010 sec)
 
 MariaDB [wedding_dss]> desc admins;
 +------------+-----------------------------+------+-----+---------------------+-------------------------------+
@@ -29,17 +46,35 @@ MariaDB [wedding_dss]> desc admins;
 | updated_at | timestamp                   | NO   |     | current_timestamp() | on update current_timestamp() |
 | picture    | varchar(255)                | YES  |     | NULL                |                               |
 +------------+-----------------------------+------+-----+---------------------+-------------------------------+
-10 rows in set (0.010 sec)
+10 rows in set (0.014 sec)
 
-MariaDB [wedding_dss]> select *from venues;
-+----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
-| venue_id | venue_name | capacity | price  | theme | image_path                                      | status    | visible |
-+----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
-|        2 | Chapel     |      200 |  60000 | NULL  | C:\Users\annie\Downloads\ChapelWedVenue (1).jpg | AVAILABLE |       1 |
-|        3 | Garden     |      700 | 100000 | NULL  | C:\Users\annie\Downloads\GardenWedVenue (1).jpg | AVAILABLE |       1 |
-|        4 | Beach      |      800 | 250000 | NULL  | C:\Users\annie\Downloads\BeachWedVenue (1).jpg  | AVAILABLE |       1 |
-+----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
-3 rows in set (0.001 sec)
+MariaDB [wedding_dss]> select *from admins;
++----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
+| admin_id | full_name          | email                     | username    | password    | role        | status | created_at          | updated_at          | picture                                               |
++----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
+|        1 | Noriel Dalida      | nori@gmail.com            | SA_DALIDA   | Dalida123   | SUPER_ADMIN | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 16:33:07 | Melanie Martinez Disney Princess Circle wallpaper.jpg |
+|        2 | Angelica Marbella  | Angelica@gmail.com        | ADMIN_Angel | Angel123    | ADMIN       | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 14:03:19 | angelica.jpg                                          |
+|        3 | Elijah Villacastin | Elijah@gmail.com          | ADMIN_Eli   | Elijah123   | ADMIN       | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 14:04:28 | elijah.jpg                                            |
+|        4 | BAMBY SINIRIO      | Bambysin@email.com        | ADMIN_Bamby | bambysin123 | ADMIN       | ACTIVE | 2026-03-12 19:16:55 | 2026-03-14 16:33:52 | download (1).jpg                                      |
+|        7 | NorbuddySystem     | EmailsIcantSend@email.com | Norbuddyx   | norbuddy123 | ADMIN       | ACTIVE | 2026-03-14 17:12:07 | 2026-03-14 17:54:56 | download (1).jpg                                      |
++----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
+5 rows in set (0.000 sec)
+
+MariaDB [wedding_dss]> desc users;
++------------+----------------+------+-----+---------------------+-------------------------------+
+| Field      | Type           | Null | Key | Default             | Extra                         |
++------------+----------------+------+-----+---------------------+-------------------------------+
+| user_id    | int(11)        | NO   | PRI | NULL                | auto_increment                |
+| full_name  | varchar(100)   | YES  |     | NULL                |                               |
+| email      | varchar(100)   | YES  |     | NULL                |                               |
+| username   | varchar(50)    | YES  | UNI | NULL                |                               |
+| password   | varchar(100)   | YES  |     | NULL                |                               |
+| role       | enum('CLIENT') | NO   |     | NULL                |                               |
+| status     | varchar(20)    | YES  |     | ACTIVE              |                               |
+| created_at | timestamp      | NO   |     | current_timestamp() |                               |
+| updated_at | timestamp      | NO   |     | current_timestamp() | on update current_timestamp() |
++------------+----------------+------+-----+---------------------+-------------------------------+
+9 rows in set (0.009 sec)
 
 MariaDB [wedding_dss]> desc venues;
 +------------+--------------+------+-----+-----------+----------------+
@@ -56,31 +91,22 @@ MariaDB [wedding_dss]> desc venues;
 +------------+--------------+------+-----+-----------+----------------+
 8 rows in set (0.010 sec)
 
-MariaDB [wedding_dss]> desc bookings;
-+-------------+--------------+------+-----+---------------------+----------------+
-| Field       | Type         | Null | Key | Default             | Extra          |
-+-------------+--------------+------+-----+---------------------+----------------+
-| booking_id  | int(11)      | NO   | PRI | NULL                | auto_increment |
-| user_id     | int(11)      | YES  | MUL | NULL                |                |
-| venue_id    | int(11)      | YES  | MUL | NULL                |                |
-| venue_type  | varchar(50)  | YES  |     | NULL                |                |
-| event_date  | date         | YES  |     | NULL                |                |
-| event_time  | varchar(50)  | YES  |     | NULL                |                |
-| location    | varchar(255) | YES  |     | NULL                |                |
-| total_price | double       | YES  |     | NULL                |                |
-| status      | varchar(20)  | YES  |     | PENDING             |                |
-| created_at  | timestamp    | NO   |     | current_timestamp() |                |
-| admin_id    | int(11)      | YES  | MUL | NULL                |                |
-+-------------+--------------+------+-----+---------------------+----------------+
-11 rows in set (0.010 sec)
-MariaDB [wedding_dss]> select * from admins;
-+----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
-| admin_id | full_name          | email                     | username    | password    | role        | status | created_at          | updated_at          | picture                                               |
-+----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
-|        1 | Noriel Dalida      | nori@gmail.com            | SA_DALIDA   | Dalida123   | SUPER_ADMIN | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 16:33:07 | Melanie Martinez Disney Princess Circle wallpaper.jpg |
-|        2 | Angelica Marbella  | Angelica@gmail.com        | ADMIN_Angel | Angel123    | ADMIN       | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 14:03:19 | angelica.jpg                                          |
-|        3 | Elijah Villacastin | Elijah@gmail.com          | ADMIN_Eli   | Elijah123   | ADMIN       | ACTIVE | 2026-03-12 19:07:08 | 2026-03-14 14:04:28 | elijah.jpg                                            |
-|        4 | BAMBY SINIRIO      | Bambysin@email.com        | ADMIN_Bamby | bambysin123 | ADMIN       | ACTIVE | 2026-03-12 19:16:55 | 2026-03-14 16:33:52 | download (1).jpg                                      |
-|        7 | NorbuddySystem     | EmailsIcantSend@email.com | Norbuddyx   | norbuddy123 | ADMIN       | ACTIVE | 2026-03-14 17:12:07 | 2026-03-14 17:54:56 | download (1).jpg                                      |
-+----------+--------------------+---------------------------+-------------+-------------+-------------+--------+---------------------+---------------------+-------------------------------------------------------+
-5 rows in set (0.000 sec)
+MariaDB [wedding_dss]> select * from venues;
++----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
+| venue_id | venue_name | capacity | price  | theme | image_path                                      | status    | visible |
++----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
+|        2 | Chapel     |      200 |  60000 | NULL  | C:\Users\annie\Downloads\ChapelWedVenue (1).jpg | AVAILABLE |       1 |
+|        3 | Garden     |      700 | 100000 | NULL  | C:\Users\annie\Downloads\GardenWedVenue (1).jpg | AVAILABLE |       1 |
+|        4 | Beach      |      800 | 250000 | NULL  | C:\Users\annie\Downloads\BeachWedVenue (1).jpg  | AVAILABLE |       1 |
++----------+------------+----------+--------+-------+-------------------------------------------------+-----------+---------+
+3 rows in set (0.000 sec)
+
+MariaDB [wedding_dss]> desc venue_locations;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| location_id   | int(11)      | NO   | PRI | NULL    | auto_increment |
+| venue_id      | int(11)      | YES  | MUL | NULL    |                |
+| location_name | varchar(255) | YES  |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+3 rows in set (0.011 sec)
